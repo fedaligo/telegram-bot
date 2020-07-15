@@ -60,6 +60,82 @@
     </build>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter -->
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots-spring-boot-starter</artifactId>
+            <version>4.9</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>4.9</version>
+        </dependency>-->
+        <!--Starter for using Spring Framework's caching support-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+
+        <!--Support for the DB migration
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>6.3.3</version>
+        </dependency>-->
+
+
+       <!-- &lt;!&ndash;(DEPRECATED) Apache Log4j 1.2&ndash;&gt;
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j}</version>
+        </dependency>
+
+        &lt;!&ndash;Java JDBC 4.2 (JRE 8+) driver for PostgreSQL database&ndash;&gt;
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.10</version>
+        </dependency>-->
+
+        <!--&lt;!&ndash;JSON API documentation for spring based applications&ndash;&gt;
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        &lt;!&ndash;JSON API documentation for spring based applications&ndash;&gt;
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>-->
+
+
+        <!--Spice up your java: Automatic Resource Management, automatic generation
+        of getters, setters, equals, hashCode and toString, and more.-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <!--&lt;!&ndash;Starter for using Spring Data JPA with Hibernate&ndash;&gt;
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>-->
+
+        <!--Starter for building web, including RESTful, applications using
+        Spring MVC. Uses Tomcat as the default embedded container-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <!--JSON Web Token Support For The JVM-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -81,11 +157,11 @@
         </dependency>
 
         <!--Support for the DB migration-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>6.3.3</version>
-        </dependency>
+        </dependency>-->
 
         <!--Starter for building web, including RESTful, applications using
         Spring MVC. Uses Tomcat as the default embedded container-->
@@ -95,10 +171,10 @@
         </dependency>
 
         <!--Starter for using Spring Security-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!--Starter for using JDBC with the HikariCP connection pool-->
         <dependency>
@@ -204,7 +280,8 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+
     </dependencies>
 
-    
+
 </project>
