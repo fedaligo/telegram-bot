@@ -79,12 +79,12 @@
         </dependency>
 
 
-        <!--Support for the DB migration
+        <!--Support for the DB migration-->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
             <version>6.3.3</version>
-        </dependency>-->
+        </dependency>
 
 
        <!-- &lt;!&ndash;(DEPRECATED) Apache Log4j 1.2&ndash;&gt;
