@@ -1,13 +1,14 @@
 package com.htp.config;
 
 
+import com.htp.domain.FrontStep;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 
@@ -17,26 +18,28 @@ import org.telegram.telegrambots.meta.ApiContext;
 @ConfigurationProperties(prefix = "telegrambot")
 public class BotConfig {
 
-    private String webHookPath; //из application.properties
-    private String botUserName;//из application.properties
-    private String botToken;//из application.properties
-    private DefaultBotOptions.ProxyType proxyType;//из application.properties
-    private String proxyHost;//из application.properties
-    private int proxyPort;//из application.properties
+    private String webHookPath;
+    private String botUserName;
+    private String botToken;
 
     @Bean
-    public MyTelegramBot MyTelegramBot (){
+    public MyTelegramBot MyTelegramBot (FrontStep frontStep){
         DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
-
-        /*options.setProxyHost(proxyHost);
-        options.setProxyPort(proxyPort);
-        options.setProxyType(proxyType);*/
-
-        MyTelegramBot myTelegramBot = new MyTelegramBot(options);
+        MyTelegramBot myTelegramBot = new MyTelegramBot(options, frontStep);
         myTelegramBot.setBotUserName(botUserName);
         myTelegramBot.setBotToken(botToken);
         myTelegramBot.setWebHookPath(webHookPath);
 
         return myTelegramBot;
+    }
+
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource
+                = new ReloadableResourceBundleMessageSource();
+
+        messageSource.setBasename("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 }

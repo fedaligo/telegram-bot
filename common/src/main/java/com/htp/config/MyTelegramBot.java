@@ -1,33 +1,30 @@
 package com.htp.config;
 
-import com.htp.config.BotConfig;
+import com.htp.domain.FrontStep;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
+
+import java.util.List;
 
 
 public class MyTelegramBot extends TelegramWebhookBot {
     private String webHookPath;
     private String botUserName;
     private String botToken;
+    private FrontStep frontStep;
 
-    public MyTelegramBot(DefaultBotOptions options) {
+    public MyTelegramBot(DefaultBotOptions options, FrontStep frontStep) {
         super(options);
+        this.frontStep = frontStep;
     }
 
-    //метод который будет обрабатывать полученные апдейты
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
-        if(update.getMessage() != null && update.getMessage().hasText()){
-            long chat_id = update.getMessage().getChatId();
-            SendMessage sm = new SendMessage(chat_id, "Hi " + update.getMessage().getText());
-            return sm;
-        }
-        return null;
+        List<SendMessage> replyMessageToUser = frontStep.handleUpdate(update);
+        return replyMessageToUser.get(0);
     }
 
     @Override
