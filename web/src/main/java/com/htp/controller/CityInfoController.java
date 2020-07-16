@@ -1,57 +1,71 @@
 package com.htp.controller;
 
+import com.htp.controller.request.CityInfoCreateRequest;
+import com.htp.controller.request.CityInfoUpdateRequest;
 import com.htp.domain.HibernateCityInfo;
 import com.htp.repository.HibernateCityInfoRepository;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/cityinfo")
 @RequiredArgsConstructor
 public class CityInfoController {
+    private final ConversionService conversionService;
     private final HibernateCityInfoRepository hibernateCityInfoRepository;
 
-    @GetMapping("/tt")
+    /*FindAll */
+    @ApiOperation(value = "Find all city information")
+    @GetMapping("/cityinfo")
     @ResponseStatus(HttpStatus.OK)
-    public String getHibernatesCarsRepository() {
-        return "trtr";
+    public ResponseEntity<List<HibernateCityInfo>> getAllInfo() {
+        return new ResponseEntity<>(hibernateCityInfoRepository.findAll(), HttpStatus.OK);
     }
 
-    /*FindById*/
-    @ApiOperation(value = "Get from server by id")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Successful getting Cars"),
-            @ApiResponse(code = 400, message = "Invalid Cars ID supplied"),
-            @ApiResponse(code = 401, message = "Lol kek"),
-            @ApiResponse(code = 404, message = "Cars was not found"),
-            @ApiResponse(code = 500, message = "Server error, something wrong")
-    })
-
-    @GetMapping(value = "/test/{id}")
+    /*Create */
+    @ApiOperation(value = "Create new city information")
+    @PostMapping("/cityinfo")
+    @Transactional(rollbackFor = Exception.class)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<HibernateCityInfo> getHByIdRepository(@ApiParam("Path Id") @PathVariable("id") Long id) {
-        HibernateCityInfo t = hibernateCityInfoRepository.findById(id).orElse(null);
-        return new ResponseEntity<>(t, HttpStatus.OK);
+    public ResponseEntity<HibernateCityInfo> createConvertedHibernateCityInfo(@RequestBody @Valid CityInfoCreateRequest request) {
+        return new ResponseEntity<>(hibernateCityInfoRepository.saveAndFlush(conversionService.convert(request, HibernateCityInfo.class)), CREATED);
     }
 
-    @GetMapping(value = "/test/t")
+    /*Update*/
+    @ApiOperation(value = "Update city information")
+    @PutMapping("/cityinfo")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<String>> getAllCapitals() {
-        return new ResponseEntity<>(hibernateCityInfoRepository.findAllCapitals(), HttpStatus.OK);
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<HibernateCityInfo> updateHibernateCityInfoRepository(@RequestBody @Valid CityInfoUpdateRequest request,
+                                                                       String city) {
+        HibernateCityInfo hibernateCityInfo = hibernateCityInfoRepository.findByCapital(city).
+                orElseThrow(() -> new EntityNotFoundException("cityinfo"));
+        request.setId(hibernateCityInfo.getId());
+        return new ResponseEntity<>(hibernateCityInfoRepository.save(conversionService.convert
+                (request, HibernateCityInfo.class)), HttpStatus.OK);
     }
-    @GetMapping(value = "/test1/{city}")
+
+    /*Delete */
+    @ApiOperation(value = "Delete city information")
+    @DeleteMapping("/cityinfo")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> getInfoByCity(@ApiParam("Path city") @PathVariable("city") String city) {
-        String t = hibernateCityInfoRepository.findInfoByCapital(city.substring(0, 1).toUpperCase() + city.substring(1));
-        return new ResponseEntity<>(t, HttpStatus.OK);
+    @Transactional(rollbackFor = Exception.class)
+    public ResponseEntity<String> deleteCityInfo(String city) {
+        hibernateCityInfoRepository.deleteCityInfo(city);
+        return new ResponseEntity<>("city information is deleted", HttpStatus.OK);
     }
 }
