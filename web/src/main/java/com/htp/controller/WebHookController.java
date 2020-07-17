@@ -14,7 +14,6 @@ import javax.validation.Valid;
 @RequestMapping
 @RequiredArgsConstructor
 public class WebHookController {
-    //перехват POST запрососв от телеграмм сервера
 
     private final MyTelegramBot myTelegramBot;
 
