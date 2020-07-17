@@ -40,6 +40,12 @@ public class ProcessingRequestImpl implements ProcessingRequest {
             allMessages.add(messagesService.getReplyMessage(chatId, "reply.askCapital"));
         }
 
+        if (botState.equals(BotState.HELP)) {
+            allMessages.add(new SendMessage(inputMsg.getChatId(),"This bot is informational. " +
+                    "It is intended to obtain information about the sights od the city. To get information " +
+                    "about the city, just enter the name of that city. "));
+        }
+
         if (botState.equals(BotState.ASK_LIST)) {
             if(allCapitals.size()>=40){
                 for(int p=0;p<allCapitals.size()/40;p++){

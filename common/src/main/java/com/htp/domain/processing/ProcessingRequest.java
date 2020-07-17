@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface ProcessingRequest {
     List<SendMessage> processUsersInput(BotState currentState, Message inputMsg);
-
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
 import java.util.List;
 
 @Component
@@ -37,15 +38,15 @@ public class FrontStep {
             case "full list":
                 botState = BotState.ASK_LIST;
                 break;
+            case "help":
+                botState = BotState.HELP;
+                break;
             default:
                 botState = BotState.WORD;
                 break;
         }
-
         userDataCache.setUsersCurrentBotState(userId, botState);
         replyMessage = processingRequest.processUsersInput(botState, message);
         return replyMessage;
     }
-
-
 }
